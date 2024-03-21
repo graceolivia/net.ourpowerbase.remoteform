@@ -1,11 +1,11 @@
-button {
+/* Minify this and put it in the form in a style tag */
+#remoteForm .btn {
     border: 2px solid #0d8894;
     border-radius: 3em;
-    color: #0d8894 !important;
+    background-color: #0d8894 !important;
     font-weight: 600;
     padding: 0.5em 1.7em;
     margin-left: 1.5em;
-    background-color: transparent;
     text-transform: none;
     margin-right: 0;
     margin-top: 0;
