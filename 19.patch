@@ -1,0 +1,44 @@
+From 8bcbb1d50cbce5678f4160a359999c49ca569b37 Mon Sep 17 00:00:00 2001
+From: Jamie McClelland <jm@mayfirst.org>
+Date: Mon, 20 May 2024 16:46:13 -0400
+Subject: [PATCH] only use sessionId for logged in users
+
+---
+ Civi/Firewall/Firewall.php | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
+
+diff --git a/Civi/Firewall/Firewall.php b/Civi/Firewall/Firewall.php
+index 68947f2..84981b1 100644
+--- a/Civi/Firewall/Firewall.php
++++ b/Civi/Firewall/Firewall.php
+@@ -266,7 +266,12 @@ GROUP BY event_type
+     $validTo = time() + ((int) \Civi::settings()->get('secure_cache_timeout_minutes') * 60);
+     $random = bin2hex(random_bytes(12));
+     $privateKey = CIVICRM_SITE_KEY;
+-    $sessionId = \CRM_Core_Config::singleton()->userSystem->getSessionId();
++    if (\CRM_Utils_System::isUserLoggedIn()) {
++      $sessionId = \CRM_Core_Config::singleton()->userSystem->getSessionId();
++    }
++    else {
++      $sessionId = '';
++    }
+ 
+     $publicToken = "$validTo.$random.";
+     $dataToHash = $publicToken . $privateKey . $sessionId;
+@@ -323,7 +328,12 @@ GROUP BY event_type
+       $this->setReason('expiredcsrf');
+       return FALSE;
+     }
+-    $sessionId = \CRM_Core_Config::singleton()->userSystem->getSessionId();
++    if (\CRM_Utils_System::isUserLoggedIn()) {
++      $sessionId = \CRM_Core_Config::singleton()->userSystem->getSessionId();
++    }
++    else {
++      $sessionId = '';
++    }
+     $dataToHash = "$matches[1].$matches[2]." . CIVICRM_SITE_KEY . $sessionId;
+     if ($matches[3] !== hash('sha256', $dataToHash)) {
+       \Civi\Firewall\Event\InvalidCSRFEvent::trigger(self::getIPAddress(), 'tampered hash');
+-- 
+GitLab
+
