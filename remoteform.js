@@ -517,7 +517,6 @@ function remoteForm(config) {
     spinnerFrameDiv.style.display = 'block';
     spinnerDiv.style.display = 'block';
 
-    console.log("Restting it to block");
     if (cfg.customSubmitDataFunc) {
       cfg.customSubmitDataFunc(params, submitDataPost, cfg.customSubmitDataParams, post);
     }
