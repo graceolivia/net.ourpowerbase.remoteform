@@ -665,7 +665,9 @@ function remoteForm(config) {
       resetForm(cfg.successMsg);
       spinnerFrameDiv.style.display = 'none';
       spinnerDiv.style.display = 'none';
-
+      if (parentElementId === "remoteFormSubscribe" ) {
+        document.getElementById('subscribePreamble').style.display = 'none';
+      }
     }
   }
 
