@@ -656,12 +656,13 @@ function remoteForm(config) {
   }
 
   function processSubmitDataResponse(data) {
+    console.log("did we get here?")
     if (data['is_error'] == 1) {
       userMsg(data['error_message']);
-      // EXPERIMENT!
+      // EXPERIMENT TO REMOVE SPINNER!
       spinnerFrameDiv.style.display = 'none';
       spinnerDiv.style.display = 'none';
-      // EXPERIMENT!
+      // EXPERIMENT TO REMOVE SPINNER!
       return;
     }
     else {
