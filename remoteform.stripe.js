@@ -80,7 +80,7 @@ function submitStripe(params, finalSubmitDataFunc, cfg, remoteformPostFunc) {
     if (result.error) {
       // Show error in payment form
       console.log("Problems!", result);
-      alert(result.message);
+      alert(result.error.message);
     }
     else {
       var post_params = {
