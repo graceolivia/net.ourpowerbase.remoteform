@@ -73,18 +73,26 @@ function submitStripe(params, finalSubmitDataFunc, cfg, remoteformPostFunc) {
 
     // new function to hide spinners after erroring out 
     function hideSpinners() {
-      const spinnerFrame = document.querySelector('.remoteForm-spinner-frame');
-      const spinner = document.querySelector('.remoteForm-spinner');
+      const intervalId = setInterval(() => {
+        const spinnerFrame = document.querySelector('.remoteForm-spinner-frame');
+        const spinner = document.querySelector('.remoteForm-spinner');
     
-      if (spinnerFrame) {
-        spinnerFrame.style.display = 'none';
-      }
+        if (spinnerFrame) {
+          spinnerFrame.style.display = 'none';
+        }
     
-      if (spinner) {
-        spinner.style.display = 'none';
-      }
+        if (spinner) {
+          spinner.style.display = 'none';
+        }
+    
+        // Clear the interval once both elements are hidden
+        if (spinnerFrame && spinner) {
+          clearInterval(intervalId);
+        }
+      }, 100); // Check every 100 milliseconds
     }
 
+    
     function successHandler(type, object ) {
       params['params'][type] = object.id;
       console.log("Final post", params);
