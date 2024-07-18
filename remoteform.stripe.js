@@ -81,6 +81,21 @@ function submitStripe(params, finalSubmitDataFunc, cfg, remoteformPostFunc) {
       // Show error in payment form
       console.log("Problems!", result);
       alert(result.error.message + " Please refresh and try again.");
+      document.addEventListener('DOMContentLoaded', () => {
+        // select the elements using their class names
+        const spinnerFrame = document.querySelector('.remoteForm-spinner-frame');
+        const spinner = document.querySelector('.remoteForm-spinner');
+      
+        // set their display property to 'none'
+        if (spinnerFrame) {
+          spinnerFrame.style.display = 'none';
+        }
+      
+        if (spinner) {
+          spinner.style.display = 'none';
+        }
+      });
+      
     }
     else {
       var post_params = {

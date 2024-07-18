@@ -656,7 +656,6 @@ function remoteForm(config) {
   }
 
   function processSubmitDataResponse(data) {
-    console.log("did we get here?")
     if (data['is_error'] == 1) {
       userMsg(data['error_message']);
       // EXPERIMENT TO REMOVE SPINNER!
