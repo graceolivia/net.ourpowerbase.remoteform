@@ -80,24 +80,7 @@ function submitStripe(params, finalSubmitDataFunc, cfg, remoteformPostFunc) {
     if (result.error) {
       // Show error in payment form
       console.log("Problems!", result);
-      // CHATGPT STUFF TO FIX
-      document.addEventListener('DOMContentLoaded', () => {
-        // select the target div with the class 'form-group'
-        const formGroupDiv = document.querySelector('.form-group');
-      
-        if (formGroupDiv) {
-          // create a new div element
-          const warningDiv = document.createElement('div');
-          // set the content of the new div
-          warningDiv.textContent = 'warning: you forgot the zip code';
-          // optionally, add a class to the new div for styling
-          warningDiv.classList.add('warning-message');
-          // insert the new div at the top of the target div
-          formGroupDiv.insertBefore(warningDiv, formGroupDiv.firstChild);
-        } else {
-          console.error('target div with class "form-group" not found');
-        }
-      });
+      alert(result.message);
     }
     else {
       var post_params = {
