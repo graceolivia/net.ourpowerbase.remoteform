@@ -48,6 +48,8 @@ function submitStripe(params, finalSubmitDataFunc, cfg, remoteformPostFunc) {
       if (result.is_error) {
         // Show error from server on payment form
         console.log("Error: ", result);
+        alert(result.error.message + " Please refresh and try again.");
+        hideSpinners();
       } else if (result.values.requires_action) {
         // Use Stripe.js to handle required card action
         handleAction(result.values);
@@ -92,7 +94,7 @@ function submitStripe(params, finalSubmitDataFunc, cfg, remoteformPostFunc) {
       }, 100); // Check every 100 milliseconds
     }
 
-    
+
     function successHandler(type, object ) {
       params['params'][type] = object.id;
       console.log("Final post", params);
