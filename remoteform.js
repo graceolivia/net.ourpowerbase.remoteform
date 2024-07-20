@@ -373,7 +373,7 @@ function remoteForm(config) {
   }
   function friendlyErr(err) {
     adminMsg(err);
-    userMsg("Sorry, we encountered an error! See console log for more details.");
+    userMsg("Sorry, we encountered an error! Please refresh and try again.");
     spinnerFrameDiv.style.display = 'none';
     spinnerDiv.style.display = 'none';
   }
