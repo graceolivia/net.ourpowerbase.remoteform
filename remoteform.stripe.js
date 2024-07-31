@@ -48,6 +48,8 @@ function submitStripe(params, finalSubmitDataFunc, cfg, remoteformPostFunc) {
       if (result.is_error) {
         // Show error from server on payment form
         console.log("Error: ", result);
+        alert(result.error.message + " Please refresh and try again.");
+        hideSpinners();
       } else if (result.values.requires_action) {
         // Use Stripe.js to handle required card action
         handleAction(result.values);
@@ -70,7 +72,29 @@ function submitStripe(params, finalSubmitDataFunc, cfg, remoteformPostFunc) {
           }
         });
     }
+
+    // new function to hide spinners after erroring out 
+    function hideSpinners() {
+      const intervalId = setInterval(() => {
+        const spinnerFrame = document.querySelector('.remoteForm-spinner-frame');
+        const spinner = document.querySelector('.remoteForm-spinner');
     
+        if (spinnerFrame) {
+          spinnerFrame.style.display = 'none';
+        }
+    
+        if (spinner) {
+          spinner.style.display = 'none';
+        }
+    
+        // Clear the interval once both elements are hidden
+        if (spinnerFrame && spinner) {
+          clearInterval(intervalId);
+        }
+      }, 100); // Check every 100 milliseconds
+    }
+
+
     function successHandler(type, object ) {
       params['params'][type] = object.id;
       console.log("Final post", params);
@@ -80,6 +104,8 @@ function submitStripe(params, finalSubmitDataFunc, cfg, remoteformPostFunc) {
     if (result.error) {
       // Show error in payment form
       console.log("Problems!", result);
+      alert(result.error.message + " Please refresh and try again.");
+      hideSpinners();
     }
     else {
       var post_params = {
