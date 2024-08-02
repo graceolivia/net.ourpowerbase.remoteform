@@ -1125,16 +1125,6 @@ function remoteForm(config) {
               var otherAmountEl = cfg.createFieldDivFunc('Other_Amount', otherAmountDef, 'text', createField, wrapField);
               referenceNode.parentNode.insertBefore(otherAmountEl, referenceNode.nextSibling);
             });
-            // Automatically check and show the "Other Amount" box
-            optionInput.checked = true;
-            var referenceNode = optionDiv;
-            var otherAmountDef = {
-              'api.required': 1,
-              title: 'Donation'
-            };
-            var otherAmountEl = cfg.createFieldDivFunc('Other_Amount', otherAmountDef, 'text', createField, wrapField);
-            referenceNode.parentNode.insertBefore(otherAmountEl, referenceNode.nextSibling);
-
           }
           else {
             optionDisplay = optionObj['label'] ? optionObj['label'] + ' - ' : '';
