@@ -1169,7 +1169,6 @@ function remoteForm(config) {
         optionDiv.appendChild(optionInput);
         optionDiv.appendChild(optionLabel);
         optionsDiv.appendChild(optionDiv);
-        document.getElementById('Other_Amount').checked = true;
       }
     }
     collectionDiv.appendChild(optionsDiv);
