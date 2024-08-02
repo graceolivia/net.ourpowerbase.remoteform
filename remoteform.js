@@ -1119,7 +1119,7 @@ function remoteForm(config) {
               var referenceNode = document.getElementById(optionInput.id).parentNode;
               var otherAmountDef = {
                 'api.required': 1,
-                title: 'Other Amount'
+                title: 'Donation Amount'
               };
 
               var otherAmountEl = cfg.createFieldDivFunc('Other_Amount', otherAmountDef, 'text', createField, wrapField);
