@@ -373,7 +373,9 @@ function remoteForm(config) {
   }
   function friendlyErr(err) {
     adminMsg(err);
-    userMsg("Sorry, we encountered an error! See console log for more details.");
+    userMsg("Sorry, we encountered an error! Please double check the form and try again.");
+    spinnerFrameDiv.style.display = 'none';
+    spinnerDiv.style.display = 'none';
   }
 
   // Sanity checking
@@ -517,7 +519,6 @@ function remoteForm(config) {
     spinnerFrameDiv.style.display = 'block';
     spinnerDiv.style.display = 'block';
 
-    console.log("Restting it to block");
     if (cfg.customSubmitDataFunc) {
       cfg.customSubmitDataFunc(params, submitDataPost, cfg.customSubmitDataParams, post);
     }
@@ -659,6 +660,10 @@ function remoteForm(config) {
   function processSubmitDataResponse(data) {
     if (data['is_error'] == 1) {
       userMsg(data['error_message']);
+      // EXPERIMENT TO REMOVE SPINNER!
+      spinnerFrameDiv.style.display = 'none';
+      spinnerDiv.style.display = 'none';
+      // EXPERIMENT TO REMOVE SPINNER!
       return;
     }
     else {
@@ -666,7 +671,15 @@ function remoteForm(config) {
       resetForm(cfg.successMsg);
       spinnerFrameDiv.style.display = 'none';
       spinnerDiv.style.display = 'none';
+      if (cfg.parentElementId === "remoteFormSubscribe" ) {
+        document.getElementById('subscribePreamble').style.display = 'none';
+      var parentElement = document.getElementById('remoteFormSubscribe');
+      var btnElements = parentElement.querySelectorAll('.btn');
 
+      btnElements.forEach(function(btn) {
+          btn.style.display = 'none';
+      })
+      }
     }
   }
 
@@ -737,18 +750,18 @@ function remoteForm(config) {
     submitButton.value = cfg.submitTxt;
     submitButton.className = cfg.css.button;
 
-    var cancelButton = createSubmit();
-    cancelButton.value = cfg.cancelTxt;
-    cancelButton.className = cfg.css.button;
-    cancelButton.addEventListener('click', function() {
-      resetForm("Action canceled");
-    });
+    // var cancelButton = createSubmit();
+    // cancelButton.value = cfg.cancelTxt;
+    // cancelButton.className = cfg.css.button;
+    // cancelButton.addEventListener('click', function() {
+    //   resetForm("Action canceled");
+    // });
 
     var submitDiv = document.createElement('div');
     submitDiv.className = cfg.css.inputDiv;
     submitDiv.id = 'remoteform-submit';
     submitDiv.appendChild(submitButton);
-    submitDiv.appendChild(cancelButton);
+    // submitDiv.appendChild(cancelButton);
     form.appendChild(submitDiv);
 
     // Add a submit listener to the form rather than a click listener

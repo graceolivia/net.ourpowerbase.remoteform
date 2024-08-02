@@ -1,0 +1,48 @@
+/* Minify this and put it in the form in a style tag */
+#remoteForm .btn {
+    border: 2px solid #0d8894;
+    border-radius: 3em;
+    background-color: white !important;
+    font-weight: 600;
+    padding: 0.5em 1.7em;
+    margin-left: 1.5em;
+    text-transform: none;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    box-shadow: none;
+    font-size: 14pt;
+    clear: both;
+    color: #0d8894; 
+  }
+  #remoteForm .btn:hover {
+    background-color: #0d8894 !important;
+    color: white !important;
+  }
+
+#remoteForm-form-ContributionPage4 > * {
+    padding-top: 10px; 
+    padding-bottom: 10px; 
+  }
+
+  #remoteForm-form-ContributionPage4 {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+
+  DONATE PAGE ONLY
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+.column {
+    flex: 1;
+    padding: 10px;
+}
+@media (max-width: 768px) {
+    .column {
+        flex-basis: 100%;
+    }
+}
