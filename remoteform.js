@@ -1112,7 +1112,7 @@ function remoteForm(config) {
             optionInput.setAttribute('data-is-other-amount', optionObj['price_field_id']);
 
             // If clicked, show other amount text box.
-            optionInput.addEventListener('click', function(e) {
+           // optionInput.addEventListener('click', function(e) {
               // If Other_Amount is chosen, display box for user to enter
               // the other amount. It should be inserted after the enclosing
               // div of the other amount option.
@@ -1124,7 +1124,7 @@ function remoteForm(config) {
 
               var otherAmountEl = cfg.createFieldDivFunc('Other_Amount', otherAmountDef, 'text', createField, wrapField);
               referenceNode.parentNode.insertBefore(otherAmountEl, referenceNode.nextSibling);
-            });
+           // });
           }
           else {
             optionDisplay = optionObj['label'] ? optionObj['label'] + ' - ' : '';
