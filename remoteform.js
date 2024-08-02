@@ -1119,7 +1119,7 @@ function remoteForm(config) {
               var referenceNode = document.getElementById(optionInput.id).parentNode;
               var otherAmountDef = {
                 'api.required': 1,
-                title: 'Donation Amount'
+                title: 'Donation'
               };
 
               var otherAmountEl = cfg.createFieldDivFunc('Other_Amount', otherAmountDef, 'text', createField, wrapField);
@@ -1169,6 +1169,7 @@ function remoteForm(config) {
         optionDiv.appendChild(optionInput);
         optionDiv.appendChild(optionLabel);
         optionsDiv.appendChild(optionDiv);
+        document.getElementById('Other_Amount').checked = true;
       }
     }
     collectionDiv.appendChild(optionsDiv);
