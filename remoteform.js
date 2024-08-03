@@ -486,6 +486,7 @@ function remoteForm(config) {
 
     spinnerFrameDiv.style.display = 'none';
     spinnerDiv.style.display = 'none';
+    handleOtherAmountCheckbox();
   }
 
   // We don't support all entities - just a few and a limited set of
