@@ -483,6 +483,7 @@ function remoteForm(config) {
     else {
       friendlyErr("Failed to validate fields. You may be trying to use an entity that is too complicated for me.");
     }
+
     spinnerFrameDiv.style.display = 'none';
     spinnerDiv.style.display = 'none';
   }
@@ -666,6 +667,16 @@ function remoteForm(config) {
       resetForm(cfg.successMsg);
       spinnerFrameDiv.style.display = 'none';
       spinnerDiv.style.display = 'none';
+
+      if (cfg.parentElementId === "remoteFormSubscribe" ) {
+        document.getElementById('subscribePreamble').style.display = 'none';
+      var parentElement = document.getElementById('remoteFormSubscribe');
+      var btnElements = parentElement.querySelectorAll('.btn');
+
+      btnElements.forEach(function(btn) {
+          btn.style.display = 'none';
+      })
+      }
 
     }
   }
@@ -1358,3 +1369,24 @@ function remoteForm(config) {
 }
 
 
+
+// try this
+// function to handle "other amount" checkbox logic
+function handleOtherAmountCheckbox() {
+  var otherAmountInput = document.querySelector('input[data-is-other-amount]');
+  if (otherAmountInput) {
+    otherAmountInput.checked = true;
+
+    var referenceNode = otherAmountInput.parentNode;
+    var otherAmountDef = {
+      'api.required': 1,
+      title: 'Donation'
+    };
+
+    var otherAmountEl = cfg.createFieldDivFunc('Other_Amount', otherAmountDef, 'text', createField, wrapField);
+    referenceNode.parentNode.insertBefore(otherAmountEl, referenceNode.nextSibling);
+
+    // hide the checked radio button
+    otherAmountInput.style.display = 'none';
+  }
+}
