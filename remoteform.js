@@ -662,6 +662,8 @@ function remoteForm(config) {
   function processSubmitDataResponse(data) {
     if (data['is_error'] == 1) {
       userMsg(data['error_message']);
+      spinnerFrameDiv.style.display = 'none';
+      spinnerDiv.style.display = 'none';
       return;
     }
     else {
