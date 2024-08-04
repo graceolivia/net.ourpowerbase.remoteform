@@ -25,8 +25,8 @@
   cursor: pointer; /* Add a pointer on hover */
   border: 16px solid #f3f3f3;
   border-radius: 50%;
-  border-top: 16px solid #d81ab5;
-  border-bottom: 16px solid #d81ab5;
+  border-top: 16px solid #0d8894;
+  border-bottom: 16px solid #0d8894;
   height: 100px;
   width: 100px;
   -webkit-animation: spin 2s linear infinite;

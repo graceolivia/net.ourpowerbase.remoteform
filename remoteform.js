@@ -486,7 +486,6 @@ function remoteForm(config) {
 
     spinnerFrameDiv.style.display = 'none';
     spinnerDiv.style.display = 'none';
-    handleOtherAmountCheckbox();
   }
 
   // We don't support all entities - just a few and a limited set of
@@ -1367,27 +1366,4 @@ function remoteForm(config) {
     return field;
   }
 
-}
-
-
-
-// try this
-// function to handle "other amount" checkbox logic
-function handleOtherAmountCheckbox() {
-  var otherAmountInput = document.querySelector('input[data-is-other-amount]');
-  if (otherAmountInput) {
-    otherAmountInput.checked = true;
-
-    var referenceNode = otherAmountInput.parentNode;
-    var otherAmountDef = {
-      'api.required': 1,
-      title: 'Donation'
-    };
-
-    var otherAmountEl = cfg.createFieldDivFunc('Other_Amount', otherAmountDef, 'text', createField, wrapField);
-    referenceNode.parentNode.insertBefore(otherAmountEl, referenceNode.nextSibling);
-
-    // hide the checked radio button
-    otherAmountInput.style.display = 'none';
-  }
 }
