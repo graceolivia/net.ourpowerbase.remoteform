@@ -1127,20 +1127,14 @@ function remoteForm(config) {
             optionInput.setAttribute('data-is-other-amount', optionObj['price_field_id']);
             optionInput.checked = true; 
 
-            // If clicked, show other amount text box.
-            optionInput.addEventListener('click', function(e) {
-              // If Other_Amount is chosen, display box for user to enter
-              // the other amount. It should be inserted after the enclosing
-              // div of the other amount option.
-              var referenceNode = document.getElementById(optionInput.id).parentNode;
-              var otherAmountDef = {
+            var referenceNode = optionDiv;
+            var otherAmountDef = {
                 'api.required': 1,
-                title: 'Donation'
-              };
+                title: 'Other Amount'
+            };
 
-              var otherAmountEl = cfg.createFieldDivFunc('Other_Amount', otherAmountDef, 'text', createField, wrapField);
-              referenceNode.parentNode.insertBefore(otherAmountEl, referenceNode.nextSibling);
-            });
+            var otherAmountEl = cfg.createFieldDivFunc('Other_Amount', otherAmountDef, 'text', createField, wrapField);
+            referenceNode.parentNode.insertBefore(otherAmountEl, referenceNode.nextSibling);
           }
           else {
             optionDisplay = optionObj['label'] ? optionObj['label'] + ' - ' : '';
