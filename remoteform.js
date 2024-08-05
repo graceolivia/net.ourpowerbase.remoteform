@@ -1040,6 +1040,22 @@ function remoteForm(config) {
    * Checkbox and Radio collections.
    */
   function createCheckboxesOrRadios(key, def, type) {
+     // Check if this is a price set with only one "other amount" option
+    if (/price_[0-9]+/.test(key) && Object.keys(def.options).length === 1) {
+      const optionId = Object.keys(def.options)[0];
+      const optionObj = def.options[optionId];
+      
+      if (isOtherAmountOption(optionObj)) {
+        // Create and return only the text input for "other amount"
+        const otherAmountDef = {
+          'api.required': 1,
+          title: optionObj['label'] || 'Amount'
+        };
+        return cfg.createFieldDivFunc('Other_Amount', otherAmountDef, 'text', createField, wrapField);
+      }
+    }
+
+
     // Creating enclosing div for the collection.
     var collectionDiv = document.createElement('div');
 
