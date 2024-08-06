@@ -683,8 +683,17 @@ function remoteForm(config) {
       }
 
       // this is to get rid of anything you have tagged with the id "remoteFormPreamble" and show the epilogue instead
-      document.getElementById('remoteFormPreamble').style.display = 'none';
-      document.getElementById('remoteFormEpilogue').style.display = 'block';
+      var preambleElement = document.getElementById('remoteFormPreamble');
+      var epilogueElement = document.getElementById('remoteFormEpilogue');
+      
+      if (preambleElement) {
+        preambleElement.style.display = 'none';
+      }
+      
+      if (epilogueElement) {
+        epilogueElement.style.display = 'block';
+      }
+      
     }
   }
 
