@@ -672,8 +672,10 @@ function remoteForm(config) {
       spinnerFrameDiv.style.display = 'none';
       spinnerDiv.style.display = 'none';
 
-      if (cfg.parentElementId === "remoteFormSubscribe" ) {
+      if (cfg.parentElementId === "remoteFormSubscribe" || cfg.parentElementId === "remoteFormContact") {
         document.getElementById('subscribePreamble').style.display = 'none';
+        document.getElementById('post-submission').style.display = 'block';
+        
       var parentElement = document.getElementById('remoteFormSubscribe');
       var btnElements = parentElement.querySelectorAll('.btn');
 
