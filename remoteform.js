@@ -692,7 +692,6 @@ function remoteForm(config) {
       })
       }
 
-      if (cfg.extraMessages) {
       // this is to get rid of anything you have tagged with the id "remoteFormPreamble" and show the epilogue instead
       var preambleElement = document.getElementById('remoteFormPreamble');
       var epilogueElement = document.getElementById('remoteFormEpilogue');
@@ -704,7 +703,7 @@ function remoteForm(config) {
       if (epilogueElement) {
         epilogueElement.style.display = 'block';
       }
-    }
+  
       
     }
   }
