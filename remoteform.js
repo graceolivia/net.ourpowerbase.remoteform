@@ -100,6 +100,14 @@ function remoteForm(config) {
    */
   var cfg = {};
 
+
+  /**
+   * ### cfg.extraMessages
+   *
+   * Displays one message before submission and one after submission
+   */
+  cfg.extraMessages = cfg.extraMessages || false;
+
   /**
    * ### cfg.url
    *
@@ -352,6 +360,8 @@ function remoteForm(config) {
    * Default: text-muted form-text
    */
   cfg.css.small = config.css.small || 'text-muted form-text';
+
+  
 
   // Communicating with the user.
   function clearUserMsg() {
@@ -682,6 +692,7 @@ function remoteForm(config) {
       })
       }
 
+      if (cfg.extraMessages) {
       // this is to get rid of anything you have tagged with the id "remoteFormPreamble" and show the epilogue instead
       var preambleElement = document.getElementById('remoteFormPreamble');
       var epilogueElement = document.getElementById('remoteFormEpilogue');
@@ -693,6 +704,7 @@ function remoteForm(config) {
       if (epilogueElement) {
         epilogueElement.style.display = 'block';
       }
+    }
       
     }
   }
