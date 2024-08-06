@@ -687,6 +687,7 @@ function remoteForm(config) {
     }
   }
 
+
   function resetForm(msg) {
     // initButton.style.display = 'inline';
     // Remove all fields to prepare for a new submission.
