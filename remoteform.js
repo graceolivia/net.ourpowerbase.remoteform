@@ -1136,15 +1136,6 @@ function remoteForm(config) {
                 optionInput.checked = true;
             }
 
-            optionInput.style.position = 'absolute';
-            optionInput.style.width = '1px';
-            optionInput.style.height = '1px';
-            optionInput.style.margin = '-1px';
-            optionInput.style.padding = '0';
-            optionInput.style.overflow = 'hidden';
-            optionInput.style.clip = 'rect(0, 0, 0, 0)';
-            optionInput.style.border = '0';
-
             var optionLabel = document.createElement('label');
             optionLabel.htmlFor = optionInput.id;
             optionLabel.innerHTML = optionDisplay;
