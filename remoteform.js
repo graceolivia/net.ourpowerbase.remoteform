@@ -673,7 +673,7 @@ function remoteForm(config) {
       spinnerDiv.style.display = 'none';
 
       if (cfg.parentElementId === "remoteFormSubscribe" ) {
-        document.getElementById('subscribePreamble').style.display = 'none';
+        
       var parentElement = document.getElementById('remoteFormSubscribe');
       var btnElements = parentElement.querySelectorAll('.btn');
 
@@ -682,6 +682,9 @@ function remoteForm(config) {
       })
       }
 
+      // this is to get rid of anything you have tagged with the id "remoteFormPreamble" and show the epilogue instead
+      document.getElementById('remoteFormPreamble').style.display = 'none';
+      document.getElementById('remoteFormEpilogue').style.display = 'block';
     }
   }
 
