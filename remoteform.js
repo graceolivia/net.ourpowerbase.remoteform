@@ -1157,31 +1157,20 @@ function remoteForm(config) {
           var optionDisplay;
 
           if (isOtherAmountOption(optionObj)) {
-            // Don't display "amount" (because with other_amount it is 
-            // set to is the minimum amount).
             optionDisplay = optionObj['label'];
-
-            // Add an attribute so we know it is an Other_Amount field when
-            // we are calculating the total amount to submit and we know which
-            // price field it belongs to.
             optionInput.setAttribute('data-is-other-amount', optionObj['price_field_id']);
+            optionInput.checked = true;  // automatically check Other_Amount
 
-            // If clicked, show other amount text box.
-            optionInput.addEventListener('click', function(e) {
-              // If Other_Amount is chosen, display box for user to enter
-              // the other amount. It should be inserted after the enclosing
-              // div of the other amount option.
-              var referenceNode = document.getElementById(optionInput.id).parentNode;
-              var otherAmountDef = {
+            // Always show the other amount text box
+            var otherAmountDef = {
                 'api.required': 1,
                 title: 'Donation'
-              };
+            };
 
-              var otherAmountEl = cfg.createFieldDivFunc('Other_Amount', otherAmountDef, 'text', createField, wrapField);
-              referenceNode.parentNode.insertBefore(otherAmountEl, referenceNode.nextSibling);
-            });
-          }
-          else {
+            var otherAmountEl = cfg.createFieldDivFunc('Other_Amount', otherAmountDef, 'text', createField, wrapField);
+            optionDiv.appendChild(otherAmountEl);
+
+        } else {
             optionDisplay = optionObj['label'] ? optionObj['label'] + ' - ' : '';
             optionDisplay += prefix + parseFloat(optionObj['amount']).toFixed(2);
             optionInput.setAttribute('data-amount', optionObj['amount']);
