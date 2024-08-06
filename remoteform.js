@@ -1150,17 +1150,6 @@ function remoteForm(config) {
             optionLabel.innerHTML = optionDisplay;
             optionLabel.className = cfg.css.checkLabel;
 
-            // Apply inline styles to visually hide the label
-            optionLabel.style.position = 'absolute';
-            optionLabel.style.width = '1px';
-            optionLabel.style.height = '1px';
-            optionLabel.style.margin = '-1px';
-            optionLabel.style.padding = '0';
-            optionLabel.style.overflow = 'hidden';
-            optionLabel.style.clip = 'rect(0, 0, 0, 0)';
-            optionLabel.style.border = '0';
-
-
             optionDiv.appendChild(optionInput);
             optionDiv.appendChild(optionLabel);
             optionsDiv.appendChild(optionDiv);
