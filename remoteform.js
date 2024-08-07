@@ -1064,99 +1064,160 @@ function remoteForm(config) {
    * Checkbox and Radio collections.
    */
   function createCheckboxesOrRadios(key, def, type) {
+     // Check if this is a price set with only one "other amount" option
+    // if (/price_[0-9]+/.test(key) && Object.keys(def.options).length === 1) {
+    //   const optionId = Object.keys(def.options)[0];
+    //   const optionObj = def.options[optionId];
+      
+    //   if (isOtherAmountOption(optionObj)) {
+    //     // Create and return only the text input for "other amount"
+    //     const otherAmountDef = {
+    //       'api.required': 1,
+    //       title: optionObj['label'] || 'Amount'
+    //     };
+    //     return cfg.createFieldDivFunc('Other_Amount', otherAmountDef, 'text', createField, wrapField);
+    //   }
+    // }
+
+
     // Creating enclosing div for the collection.
     var collectionDiv = document.createElement('div');
 
     // One label for the collection (we include a label even if
-    // cfg.displayLabels is false because there is no other way to show it).
+    // cfg.displayLabels is false becaues there is no other way to show it.
     var label = document.createElement('label');
     // Always create a label, but don't create two if we already display labels.
     if (cfg.displayLabels !== true) {
-        label.className = cfg.css.label;
-        label.innerHTML = def.title;
-        collectionDiv.appendChild(label);
+      label.className = cfg.css.label;
+      label.innerHTML = def.title;
+      collectionDiv.appendChild(label);
     }
     
     // Another div to enclose just the options.
     var optionsDiv = document.createElement('div');
 
     var isPriceSet = false;
+
+    // Keep track of whether or not this price set has an "other amount"
+    // option. If so, we have to display it when requested and hide it when
+    // not requested. This variable keeps track of whether one exists for
+    // this particular priceset.
     var pricesetHasOtherAmountOption = false;
 
+    // Treat price sets differently.
     if (/price_[0-9]+/.test(key)) {
-        isPriceSet = true;
+      isPriceSet = true;
 
-        for (var optionId in def.options) {
-            if (def.options.hasOwnProperty(optionId)) {
-                if (isOtherAmountOption(def.options[optionId])) {
-                    pricesetHasOtherAmountOption = true;
-                    break;
-                }
-            }
+      // If there is an other_amount option, we need to know up front so
+      // we can add event listeners that will make a new other amount
+      // text box appear.
+      for (var optionId in def.options) {
+        if (def.options.hasOwnProperty(optionId)) {
+          if (isOtherAmountOption(def.options[optionId])) {
+            pricesetHasOtherAmountOption = true;
+            break;
+          }
         }
+      }
     }
 
+    // Now iterate over options again to build out the html.
     for (var optionId in def.options) {
-        if (def.options.hasOwnProperty(optionId)) {
-            var optionDiv = document.createElement('div');
-            optionDiv.className = cfg.css.checkDiv;
+      if (def.options.hasOwnProperty(optionId)) {
+        // Another div to enclose this particular option.
+        var optionDiv = document.createElement('div');
 
-            var optionInput = document.createElement('input');
-            optionInput.type = type;
-            optionInput.id = def.name + '-' + optionId;
-            optionInput.className = cfg.css.checkInput;
-            optionInput.name = key;
+        // We use the same class for both radio and checkbox.
+        optionDiv.className = cfg.css.checkDiv;
 
-            var optionDisplay = null; 
-            if (isPriceSet) {
-                var optionObj = def.options[optionId];
-                var prefix;
-                if (optionObj['currency'] == 'USD') {
-                    prefix = '$';
+        // Create the input.
+        var optionInput = document.createElement('input');
+        optionInput.type = type;
+
+        // We set an id so the label below can properly reference the right
+        // input.
+        optionInput.id = def.name + '-' + optionId;
+        optionInput.className = cfg.css.checkInput;
+
+        // We use the name field to find the values when we submit. This 
+        // value has to be unique (in case we have multiple pricesets).
+        optionInput.name = key;
+
+        // Option display on the option type.
+        var optionDisplay = null; 
+        if (isPriceSet) {
+          // Priceset options are a dict of values.
+          var optionObj = def.options[optionId];
+          var prefix;
+          if (optionObj['currency'] == 'USD') {
+            prefix = '$';
+          }
+
+          // Price set options called "Other_Amount" are handled differently.
+          var optionDisplay;
+
+          if (isOtherAmountOption(optionObj)) {
+            optionDisplay = optionObj['label'];
+            optionInput.setAttribute('data-is-other-amount', optionObj['price_field_id']);
+            optionInput.checked = true;  // automatically check Other_Amount
+
+            // Always show the other amount text box
+            var otherAmountDef = {
+                'api.required': 1,
+                title: 'Donation'
+            };
+
+            var otherAmountEl = cfg.createFieldDivFunc('Other_Amount', otherAmountDef, 'text', createField, wrapField);
+            optionDiv.appendChild(otherAmountEl);
+
+        } else {
+            optionDisplay = optionObj['label'] ? optionObj['label'] + ' - ' : '';
+            optionDisplay += prefix + parseFloat(optionObj['amount']).toFixed(2);
+            optionInput.setAttribute('data-amount', optionObj['amount']);
+            if (pricesetHasOtherAmountOption) {
+              // This is not an other amount field, but since there is 
+              // an other amount option, we have to hide the other amount
+              // text field if it is clicked on.
+              optionInput.addEventListener('click', function(e) {
+                // If we have not clicked the other amount option, then the other amount
+                // field may not even exist.
+                if (document.getElementById('Other_Amount')) {
+                  document.getElementById('Other_Amount').style.display = 'none';
                 }
-
-                if (isOtherAmountOption(optionObj)) {
-                    optionDisplay = optionObj['label'];
-                    optionInput.setAttribute('data-is-other-amount', optionObj['price_field_id']);
-                    optionInput.checked = true;  // automatically check Other_Amount
-
-                } else {
-                    optionDisplay = optionObj['label'] ? optionObj['label'] + ' - ' : '';
-                    optionDisplay += prefix + parseFloat(optionObj['amount']).toFixed(2);
-                    optionInput.setAttribute('data-amount', optionObj['amount']);
-                }
-            } else {
-                optionDisplay = def.options[optionId];
+              });
             }
-
-            optionInput.value = optionId;
-
-            var optionLabel = document.createElement('label');
-            optionLabel.htmlFor = optionInput.id;
-            optionLabel.innerHTML = optionDisplay;
-            optionLabel.className = cfg.css.checkLabel;
-
-            optionDiv.appendChild(optionInput);
-            optionDiv.appendChild(optionLabel);
-            optionsDiv.appendChild(optionDiv);
-
-            // I CHANGED THIS!!
-            // Always show the other amount text box after the radio button and label
-            if (isPriceSet && isOtherAmountOption(def.options[optionId])) {
-                var otherAmountDef = {
-                    'api.required': 1,
-                    title: 'Donation'
-                };
-
-                var otherAmountEl = cfg.createFieldDivFunc('Other_Amount', otherAmountDef, 'text', createField, wrapField);
-                optionDiv.appendChild(otherAmountEl);
-            }
-            // END OF CHANGE!!!
+          }
         }
+        else {
+          optionDisplay = def.options[optionId];
+        }
+
+        optionInput.value = optionId;
+        if (def.default_value == optionId) {
+          optionInput.checked = true;
+        }
+
+        // Create the label.
+        var optionLabel = document.createElement('label');
+        optionLabel.htmlFor = optionInput.id;
+
+        // We have both simple options (the label is the value, e.g.
+        // options = [ { key: label }, { key: label} ] and also 
+        // complex options (used for price sets) which have more data:
+        // options = [ {key: { label: label, amount: amount, name: name}, etc.
+        
+        optionLabel.innerHTML = optionDisplay;
+        optionLabel.className = cfg.css.checkLabel;
+
+        // Insert all our elements.
+        optionDiv.appendChild(optionInput);
+        optionDiv.appendChild(optionLabel);
+        optionsDiv.appendChild(optionDiv);
+      }
     }
     collectionDiv.appendChild(optionsDiv);
     return collectionDiv;
-}
+  }
 
   /**
    * Populate a location drop down with the appropriate values.
