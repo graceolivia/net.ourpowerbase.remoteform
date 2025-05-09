@@ -100,6 +100,14 @@ function remoteForm(config) {
    */
   var cfg = {};
 
+
+  /**
+   * ### cfg.extraMessages
+   *
+   * Displays one message before submission and one after submission
+   */
+  cfg.extraMessages = cfg.extraMessages || false;
+
   /**
    * ### cfg.url
    *
@@ -353,6 +361,8 @@ function remoteForm(config) {
    */
   cfg.css.small = config.css.small || 'text-muted form-text';
 
+  
+
   // Communicating with the user.
   function clearUserMsg() {
     userMsgDiv.innerHTML = '';
@@ -373,7 +383,9 @@ function remoteForm(config) {
   }
   function friendlyErr(err) {
     adminMsg(err);
-    userMsg("Sorry, we encountered an error! See console log for more details.");
+    userMsg("Sorry, we encountered an error! Please double check the form and try again.");
+    spinnerFrameDiv.style.display = 'none';
+    spinnerDiv.style.display = 'none';
   }
 
   // Sanity checking
@@ -483,6 +495,7 @@ function remoteForm(config) {
     else {
       friendlyErr("Failed to validate fields. You may be trying to use an entity that is too complicated for me.");
     }
+
     spinnerFrameDiv.style.display = 'none';
     spinnerDiv.style.display = 'none';
   }
@@ -659,6 +672,8 @@ function remoteForm(config) {
   function processSubmitDataResponse(data) {
     if (data['is_error'] == 1) {
       userMsg(data['error_message']);
+      spinnerFrameDiv.style.display = 'none';
+      spinnerDiv.style.display = 'none';
       return;
     }
     else {
@@ -667,11 +682,35 @@ function remoteForm(config) {
       spinnerFrameDiv.style.display = 'none';
       spinnerDiv.style.display = 'none';
 
+      if (cfg.parentElementId === "remoteFormSubscribe" ) {
+        
+      var parentElement = document.getElementById('remoteFormSubscribe');
+      var btnElements = parentElement.querySelectorAll('.btn');
+
+      btnElements.forEach(function(btn) {
+          btn.style.display = 'none';
+      })
+      }
+
+      // this is to get rid of anything you have tagged with the id "remoteFormPreamble" and show the epilogue instead
+      var preambleElement = document.getElementById('remoteFormPreamble');
+      var epilogueElement = document.getElementById('remoteFormEpilogue');
+      console.log("hi!");
+      if (preambleElement) {
+        preambleElement.style.display = 'none';
+      }
+      
+      if (epilogueElement) {
+        epilogueElement.style.display = 'block';
+      }
+  
+      
     }
   }
 
+
   function resetForm(msg) {
-    initButton.style.display = 'inline';
+    // initButton.style.display = 'inline';
     // Remove all fields to prepare for a new submission.
     while (form.firstChild) {
       form.removeChild(form.firstChild);
@@ -737,18 +776,18 @@ function remoteForm(config) {
     submitButton.value = cfg.submitTxt;
     submitButton.className = cfg.css.button;
 
-    var cancelButton = createSubmit();
-    cancelButton.value = cfg.cancelTxt;
-    cancelButton.className = cfg.css.button;
-    cancelButton.addEventListener('click', function() {
-      resetForm("Action canceled");
-    });
+    // var cancelButton = createSubmit();
+    // cancelButton.value = cfg.cancelTxt;
+    // cancelButton.className = cfg.css.button;
+    // cancelButton.addEventListener('click', function() {
+    //   resetForm("Action canceled");
+    // });
 
     var submitDiv = document.createElement('div');
     submitDiv.className = cfg.css.inputDiv;
     submitDiv.id = 'remoteform-submit';
     submitDiv.appendChild(submitButton);
-    submitDiv.appendChild(cancelButton);
+    // submitDiv.appendChild(cancelButton);
     form.appendChild(submitDiv);
 
     // Add a submit listener to the form rather than a click listener
@@ -1025,6 +1064,22 @@ function remoteForm(config) {
    * Checkbox and Radio collections.
    */
   function createCheckboxesOrRadios(key, def, type) {
+     // Check if this is a price set with only one "other amount" option
+    // if (/price_[0-9]+/.test(key) && Object.keys(def.options).length === 1) {
+    //   const optionId = Object.keys(def.options)[0];
+    //   const optionObj = def.options[optionId];
+      
+    //   if (isOtherAmountOption(optionObj)) {
+    //     // Create and return only the text input for "other amount"
+    //     const otherAmountDef = {
+    //       'api.required': 1,
+    //       title: optionObj['label'] || 'Amount'
+    //     };
+    //     return cfg.createFieldDivFunc('Other_Amount', otherAmountDef, 'text', createField, wrapField);
+    //   }
+    // }
+
+
     // Creating enclosing div for the collection.
     var collectionDiv = document.createElement('div');
 
@@ -1119,7 +1174,7 @@ function remoteForm(config) {
               var referenceNode = document.getElementById(optionInput.id).parentNode;
               var otherAmountDef = {
                 'api.required': 1,
-                title: 'Other Amount'
+                title: 'Donation'
               };
 
               var otherAmountEl = cfg.createFieldDivFunc('Other_Amount', otherAmountDef, 'text', createField, wrapField);
@@ -1356,5 +1411,3 @@ function remoteForm(config) {
   }
 
 }
-
-
